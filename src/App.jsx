@@ -11,9 +11,13 @@ function App() {
     <>
       <Navbar />
       <div className="min-h-[83vh]">
+        <div className="absolute top-0 -z-10 h-full w-full bg-green-50">
+          <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(255,255,255,0.5)] opacity-50 blur-[80px]">
+          </div>
+        </div>
 
         <Manager />
-      </div>
+      </div >
       <Footer />
     </>
   )

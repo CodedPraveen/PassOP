@@ -29,7 +29,7 @@ const Manager = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            theme: "dark",
         });
         navigator.clipboard.writeText(text)
     }
@@ -50,18 +50,47 @@ const Manager = () => {
     }
 
     const savePassword = () => {
-        if ({site: "", username: "", password: ""} == true
-        ) {
-            alert("nothing to save")
-        } else {
+        if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
+            toast.success('Password saved!', {
 
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
             setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
             localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
             setform({ site: "", username: "", password: "" })
+        } else {
+            toast.warn('All field require to fill!', {
+
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
         // console.log([...passwordArray, form]);
     }
     const deletePassword = (id) => {
+        toast.warn('delete Password!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
         console.log("deleting passwords and this is id", id);
         // let c = confirm("Do you really want to delete this password")
         // if (c) {
@@ -72,9 +101,22 @@ const Manager = () => {
         // console.log([...passwordArray, form]);
     }
     const editPassword = (id) => {
-        console.log("editing passwords and this is id", id);
-        setform(passwordArray.filter(i => i.id === id)[0])
-        setPasswordArray([...passwordArray.filter(item => item.id !== id)])
+        if (form.site.trim() !== "" && form.username.trim() !== "" && form.password.trim() !== "") {
+            console.log("editing passwords and this is id", id);
+            setform(passwordArray.filter(i => i.id === id)[0])
+            setPasswordArray([...passwordArray.filter(item => item.id !== id)])
+        } else {
+            toast.info('Fields contain values!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
         // localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
         // console.log([...passwordArray, form]);
     }
@@ -97,47 +139,43 @@ const Manager = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
-                transition="Bounce"
+                theme="dark"
+                transition="flip"
             />
             <ToastContainer />
-            <div className="absolute top-0 -z-10 h-full w-full bg-green-50">
-                <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(255,255,255,0.5)] opacity-50 blur-[80px]">
-                </div>
-            </div>
-
-            <div className=" text-black  mycontainer ">
-                <h1 className='text-4xl text-center font-bold  '>
+           
+            <div className="p-2 md:p-3 md:mycontainer ">
+                <h1 className='text-4xl text-center font-bold'>
                     <span className='text-green-500 '> &lt; </span>
                     Pass
                     <span className='text-green-500'> OP / &gt;</span>
                 </h1>
                 <p className='text-green-900 text-lg text-center '>Your own password saver</p>
 
-                <div className=" flex flex-col text-black p-4 gap-8 items-center">
+                <div className=" flex flex-col text-black p-4 gap-3 md:gap-8 md:w-2/3  md:flex md:mx-auto items-center">
 
-                    <input value={form.site} onChange={handleChange} placeholder='Enter Website URL' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="text" name="site" id="" />
+                    <input value={form.site} onChange={handleChange} placeholder='Enter Website URL' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="text" name="site" id="site" />
 
-                    <div className="flex w-full justify-between gap-3">
+                    <div className="flex flex-col md:flex-row w-full justify-between gap-3 md:gap-6">
 
-                        <input value={form.username} onChange={handleChange} placeholder='Enter Username' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="text" name="username" id="" />
+                        <input value={form.username} onChange={handleChange} placeholder='Enter Username' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="text" name="username" id="username" />
 
                         <div className="relative">
-                            <input ref={passwordRef} value={form.password} onChange={handleChange} placeholder='Enter Password' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="password" name="password" id="" />
+                            <input ref={passwordRef} value={form.password} onChange={handleChange} placeholder='Enter Password' className='rounded-full border border-green-500 bg-white px-4 py-1 w-full' type="password" name="password" id="password" />
                             <span className='absolute right-[5px] top-[2px] cursor-pointer' onClick={showPassword} >
                                 <img ref={ref} className='p-1' width={30} src="/icons/eye.png" alt="eye" />
                             </span>
                         </div>
                     </div>
 
-                    <button onClick={savePassword} className="flex justify-center items-center bg-green-400 hover:bg-green-500 rounded-full w-fit px-9 py-2 border border-green-900">
+                    <button onClick={savePassword} className="flex justify-center items-center bg-green-400 hover:bg-green-500 rounded-full w-fit px-9 py-2 border border-green-900 ">
                         <lord-icon src="https://cdn.lordicon.com/jgnvfzqg.json" trigger="hover" ></lord-icon>
                         Save Password </button>
                 </div>
-                <div className="passwords">
-                    <h2 className='font-bold text-xl '>Your passwords</h2>
-                    {passwordArray.length === 0 && <div>No Password to show</div>}
-                    {passwordArray.length != 0 && <table className="table-auto w-full rounded-md overflow-hidden">
+                <div className="passwords mx-0 md:mx-auto">
+                    <h2 className='font-bold text-xl px-4 pl-0 md:pl-62 md:p-2'>Your passwords</h2>
+                    {passwordArray.length === 0 && <div className='md:mx-auto pl-0 md:pl-62'>No Password to show</div>}
+                    {passwordArray.length != 0 && <table className="table-auto w-full md:w-2/3 rounded-md overflow-hidden md:mx-auto mb-15">
                         <thead className=' bg-green-800 text-white'>
                             <tr>
                                 <th className='py-2'>Site</th>
@@ -146,7 +184,7 @@ const Manager = () => {
                                 <th className='py-2'>Delete</th>
                             </tr>
                         </thead>
-                        <tbody className='bg-green-100 '>
+                        <tbody className='bg-green-100 py-2 md:py-17'>
                             {passwordArray.map((item, index) => {
                                 return <tr key={index}>
                                     <td className='border border-white text-center py-2'>

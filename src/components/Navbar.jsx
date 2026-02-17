@@ -12,13 +12,13 @@ const Navbar = () => {
           <span className='text-green-500'> OP / &gt;</span>
 
         </div>
-        <ul>
+        {/* <ul>
           <li className='flex gap-3'>
             <a className='hover:font-bold' href="#">Home</a>
             <a className='hover:font-bold' href="#">About</a>
             <a className='hover:font-bold' href="#">Contact</a>
           </li>
-        </ul>
+        </ul> */}
         <button className='text-white bg-green-500 h-11 rounded-full flex justify-evenly items-center ring-white ring-1'>
           <img className='invert p-2 w-12' src="/icons/github.svg" alt="github logo" />
           <span className='font-bold px-3 text-lg'>Github</span>
